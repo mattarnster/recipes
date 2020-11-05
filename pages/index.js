@@ -35,11 +35,9 @@ export default function Home({ recipes }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="container-sm mx-auto mt-4">
-      <a href="/" className="hover:text-orange-600 transition-all duration-200  permanent-marker text-4xl text-center text-orange-500 block">Recipes from the<br/> Arnold kitchen</a>
+        <a href="/" className="hover:text-orange-600 transition-all duration-200  permanent-marker text-4xl text-center text-orange-500 block">Recipes from the<br/> Arnold kitchen</a>
 
         <div className="mt-10 px-4 py-2">
-          <h2 class="text-xl font-bold mb-2">Recently added</h2>
-
           <RecipeCards content={ recipes } />
         </div>
       </div>
