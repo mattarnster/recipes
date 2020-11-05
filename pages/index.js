@@ -1,65 +1,48 @@
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import { GraphQLClient } from 'graphql-request'
+import RecipeCards from '../components/RecipeCards'
 
-export default function Home() {
+const graphcms = new GraphQLClient(process.env.GRAPHCMS_ENDPOINT)
+
+export async function getStaticProps() {
+  const { recipes } = await graphcms.request(
+    `
+    query HomepageContent() {
+      recipes(first: 3) {
+        id,
+        slug,
+        title,
+        photo {
+          url
+        }
+      }
+    }
+    `
+  )
+  return {
+    props: {
+      recipes
+    }
+  }
+}
+
+
+export default function Home({ recipes }) {
   return (
-    <div className={styles.container}>
+    <div className="container mx-auto">
       <Head>
-        <title>Create Next App</title>
+        <title>Arnold Recipes | Home</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <div className="container-sm mx-auto mt-4">
+      <a href="/" className="hover:text-orange-600 transition-all duration-200  permanent-marker text-4xl text-center text-orange-500 block">Recipes from the<br/> Arnold kitchen</a>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+        <div className="mt-10 px-4 py-2">
+          <h2 class="text-xl font-bold mb-2">Recently added</h2>
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+          <RecipeCards content={ recipes } />
         </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
+      </div>
     </div>
   )
 }
