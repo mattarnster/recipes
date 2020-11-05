@@ -6,7 +6,7 @@ export default function RecipeCard({ content }) {
     return (
         <div className="flex justify-around flex-wrap">
             { content.map((recipe) => (
-                <Link href={`/recipes/${encodeURIComponent(recipe.slug)}`}>
+                <Link key={recipe.id} href={`/recipes/${encodeURIComponent(recipe.slug)}`}>
                     <div key={ recipe.id } class="flex justify-center items-center flex-col border border-2 border-gray-200 p-4 rounded-lg hover:shadow-xl transition-all duration-200 cursor-pointer mb-4">
                         <Image className="rounded-md" 
                             src={ recipe.photo.url }
