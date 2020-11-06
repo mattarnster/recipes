@@ -26,7 +26,7 @@ export async function getStaticPaths() {
     const paths = recipes.map((recipe) => ({
         params: { slug: recipe.slug }
     }))
-    return { paths, fallback: false }
+    return { paths, fallback: true }
 }
 
 export async function getStaticProps({ params }) {
