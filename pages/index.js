@@ -8,7 +8,7 @@ export async function getStaticProps() {
   const { recipes } = await graphcms.request(
     `
     query HomepageContent() {
-      recipes(first: 3) {
+      recipes() {
         id,
         slug,
         title,
